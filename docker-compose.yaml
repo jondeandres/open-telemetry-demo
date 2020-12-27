@@ -1,0 +1,38 @@
+version: "2"
+services:
+  otel-collector:
+    image: ${OTELCOL_IMG}
+    command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "1888:1888"   # pprof extension
+      - "55670:55679" # zpages extension
+
+  otel-agent:
+    image: ${OTELCOL_IMG}
+    command: ["--config=/etc/otel-agent-config.yaml", "${OTELCOL_ARGS}"]
+    volumes:
+      - ./otel-agent-config.yaml:/etc/otel-agent-config.yaml
+    ports:
+      - "1777:1777"   # pprof extension
+      - "13133"       # health_check
+    depends_on:
+      - otel-collector
+
+  app:
+    build:
+      context: app/
+    environment:
+      FLASK_APP: /app/app.py
+      OTEL_EXPORTER_OTLP_SPAN_INSECURE: "True"
+    command: opentelemetry-instrument -s app flask run --port 8082 --host 0.0.0.0
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./app:/app/
+    ports:
+      - 8082:8082
+
+  curl:
+    image: curlimages/curl

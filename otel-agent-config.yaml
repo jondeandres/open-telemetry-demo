@@ -1,0 +1,36 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "otel-agent:55680"
+      http:
+exporters:
+  otlp:
+    endpoint: "otel-collector:55680"
+    insecure: true
+    sending_queue:
+      num_consumers: 4
+      queue_size: 100
+    retry_on_failure:
+      enabled: true
+processors:
+  batch:
+  memory_limiter:
+    # Same as --mem-ballast-size-mib CLI argument
+    ballast_size_mib: 165
+    # 80% of maximum memory up to 2G
+    limit_mib: 400
+    # 25% of limit up to 2G
+    spike_limit_mib: 100
+    check_interval: 5s
+
+extensions:
+  health_check: {}
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [otlp]
