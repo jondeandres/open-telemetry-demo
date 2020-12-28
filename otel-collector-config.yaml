@@ -23,6 +23,14 @@ extensions:
 exporters:
   logging:
     logLevel: debug
+  otlp:
+    endpoint: "otlp-api:50051"
+    insecure: true
+    sending_queue:
+      num_consumers: 4
+      queue_size: 100
+    retry_on_failure:
+      enabled: true
 
 service:
   extensions: [health_check, zpages]
@@ -30,4 +38,4 @@ service:
     traces/1:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [logging]
+      exporters: [logging, otlp]
