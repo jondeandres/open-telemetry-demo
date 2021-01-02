@@ -26,6 +26,7 @@ services:
     environment:
       FLASK_APP: /app/app.py
       OTEL_EXPORTER_OTLP_SPAN_INSECURE: "True"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=production"
     command: opentelemetry-instrument -s app flask run --port 8082 --host 0.0.0.0
     stdin_open: true
     tty: true
