@@ -35,14 +35,5 @@ services:
     ports:
       - 8082:8082
 
-  otlp-api:
-    build:
-      context: otlp-api/
-    command: python api.py
-    volumes:
-      - ./otlp-api:/app/
-    stdin_open: true
-    tty: true
-
   curl:
     image: curlimages/curl

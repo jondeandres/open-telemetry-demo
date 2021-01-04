@@ -1,0 +1,2 @@
+# OpenTelemetry demo application
+
