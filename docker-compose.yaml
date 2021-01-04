@@ -32,8 +32,19 @@ services:
     tty: true
     volumes:
       - ./web:/app/
-    ports:
-      - 8082:8082
+
+  users:
+    build:
+      context: users/
+    environment:
+      FLASK_APP: /app/app.py
+      OTEL_EXPORTER_OTLP_SPAN_INSECURE: "True"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=production"
+    command: opentelemetry-instrument -s hack-users flask run --port 8082 --host 0.0.0.0
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./users:/app/
 
   curl:
     image: curlimages/curl

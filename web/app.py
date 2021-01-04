@@ -1,6 +1,7 @@
 import time
 import random
 from flask import Flask
+import requests
 
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.trace_exporter import OTLPSpanExporter
@@ -26,10 +27,30 @@ def wait_every_10s():
         time.sleep(3)
 
 
+class InvalidCredentials(Exception):
+    pass
+
+
 @app.route("/home")
 def home():
     random.uniform(0, 0.5)
-    with tracer.start_as_current_span('home-job'):
+
+    with tracer.start_as_current_span('find-movies'):
         wait_every_10s()
 
-    return 'world!'
+    try:
+        _get_user()
+    except InvalidCredentials:
+        return 'InvalidCredentials'
+
+    return 'movies list'
+
+
+def _get_user():
+    with tracer.start_as_current_span('get-user'):
+        res = requests.get('http://users:8082/get-user')
+
+        if res.status_code == 500:
+            raise InvalidCredentials('Error calling users service')
+
+        return res
