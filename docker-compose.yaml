@@ -20,18 +20,18 @@ services:
     depends_on:
       - otel-collector
 
-  app:
+  web:
     build:
-      context: app/
+      context: web/
     environment:
       FLASK_APP: /app/app.py
       OTEL_EXPORTER_OTLP_SPAN_INSECURE: "True"
       OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=production"
-    command: opentelemetry-instrument -s app flask run --port 8082 --host 0.0.0.0
+    command: opentelemetry-instrument -s hack-web flask run --port 8082 --host 0.0.0.0
     stdin_open: true
     tty: true
     volumes:
-      - ./app:/app/
+      - ./web:/app/
     ports:
       - 8082:8082
 
