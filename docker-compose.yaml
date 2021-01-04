@@ -1,5 +1,14 @@
 version: "2"
 services:
+  all:
+    image: bash:latest
+    command: /bin/true
+    depends_on:
+      - "otel-collector"
+      - "otel-agent"
+      - "users"
+      - "web"
+
   otel-collector:
     image: ${OTELCOL_IMG}
     command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
