@@ -7,19 +7,7 @@
 
 $ docker-compose build
 
-# Run all services
+# Run all services, included load generators
 
-$ docker-compose up all
-```
-
-## Test services
-
-```
-# Test web
-
-$ docker-compose curl web:8082/home
-
-# Test users
-
-$ docker-compose curl users:8082/get-user
+$ docker-compose run all
 ```

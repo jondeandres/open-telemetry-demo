@@ -8,6 +8,7 @@ services:
       - "otel-agent"
       - "users"
       - "web"
+      - "web-load"
 
   otel-collector:
     image: ${OTELCOL_IMG}
@@ -54,6 +55,12 @@ services:
     tty: true
     volumes:
       - ./users:/app/
+
+  web-load:
+    image: locustio/locust
+    volumes:
+      - ./load/:/mnt/locust
+    command: -f /mnt/locust/web.py --headless --host http://web:8082
 
   curl:
     image: curlimages/curl
