@@ -23,7 +23,7 @@ def wait_every_10s():
     now = int(time.time())
 
     # wait every 10s
-    if now / 5 % 2 == 0:
+    if (now // 10) % 2 == 0:
         time.sleep(3)
 
 
