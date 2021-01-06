@@ -24,8 +24,10 @@ exporters:
   logging:
     logLevel: debug
   otlp:
-    endpoint: "otlp-api:50051"
+    endpoint: "gorbeia_otel_collector:50052"
     insecure: true
+    headers:
+      accesstoken: "6184c0d9dfdb455f885ee88d6da8997b"
     sending_queue:
       num_consumers: 4
       queue_size: 100
