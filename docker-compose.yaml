@@ -64,3 +64,9 @@ services:
 
   curl:
     image: curlimages/curl
+
+
+networks:
+  default:
+    external:
+      name: gorbeia_default
