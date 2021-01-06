@@ -37,7 +37,7 @@ services:
       FLASK_APP: /app/app.py
       OTEL_EXPORTER_OTLP_SPAN_INSECURE: "True"
       OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=production"
-    command: opentelemetry-instrument -s hack-web flask run --port 8082 --host 0.0.0.0
+    command: opentelemetry-instrument -s web flask run --port 8082 --host 0.0.0.0
     stdin_open: true
     tty: true
     volumes:
@@ -50,7 +50,7 @@ services:
       FLASK_APP: /app/app.py
       OTEL_EXPORTER_OTLP_SPAN_INSECURE: "True"
       OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=production"
-    command: opentelemetry-instrument -s hack-users flask run --port 8082 --host 0.0.0.0
+    command: opentelemetry-instrument -s users flask run --port 8082 --host 0.0.0.0
     stdin_open: true
     tty: true
     volumes:
