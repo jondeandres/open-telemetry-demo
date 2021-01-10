@@ -46,6 +46,17 @@ def home():
     return 'movies list'
 
 
+@app.route("/subscription", methods=['POST'])
+def subscription():
+    from lib.payments import start_subscription
+
+    random.uniform(0.2, 0.5)
+
+    start_subscription()
+
+    return 'success'
+
+
 def _get_user():
     with tracer.start_as_current_span('get-user'):
         res = requests.get('http://users:8082/get-user')
