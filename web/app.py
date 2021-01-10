@@ -21,11 +21,10 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 
 
 def wait_every_10s():
-    now = int(time.time())
-    i = int(math.floor(random.uniform(0, 5)))
-    # wait every 10s
-    if (now // 10) % 2 == 0 and i in [1, 3]:
-        time.sleep(3)
+    i = int(math.floor(random.uniform(0, 10)))
+
+    if i in [1, 2, 3]:
+        time.sleep(0.1)
 
 
 class InvalidCredentials(Exception):
@@ -34,8 +33,7 @@ class InvalidCredentials(Exception):
 
 @app.route("/home")
 def home():
-    random.uniform(0, 0.2)
-
+    time.sleep(random.uniform(0, 0.3))
     with tracer.start_as_current_span('find-movies'):
         wait_every_10s()
 
