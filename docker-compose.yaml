@@ -60,7 +60,7 @@ services:
     image: locustio/locust
     volumes:
       - ./load/:/mnt/locust
-    command: -f /mnt/locust/web.py --headless --host http://web:8082
+    command: -f /mnt/locust/web.py --headless -u 1 -r 1 --host http://web:8082
 
   curl:
     image: curlimages/curl

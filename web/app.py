@@ -37,10 +37,7 @@ def home():
     with tracer.start_as_current_span('find-movies'):
         wait_every_10s()
 
-    try:
-        _get_user()
-    except InvalidCredentials:
-        return 'InvalidCredentials'
+    _get_user()
 
     return 'movies list'
 
